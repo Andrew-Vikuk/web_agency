@@ -15,7 +15,7 @@ import { AllModule } from './AllEnteties/all.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'Vikuk2003#',
+      password: 'password',
       database: 'web_agency',
       entities: [Catalog, Order, User],
       synchronize: true,
