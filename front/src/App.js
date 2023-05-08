@@ -166,6 +166,44 @@ function App() {
   };
 
 
+  const [userId, setUserId] = useState("");
+  const [returnedOrders, setReturnedOrders] = useState([]);
+  const handleSubmitOrders = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.get(`http://localhost:3000/all/${userId}/orders`);
+      setReturnedOrders(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleChangeOrders = (event) => {
+    setUserId(event.target.value);
+  };
+
+
+
+  const [siteId, setSiteId] = useState("");
+  const [returnedOrdersBySite, setReturnedOrdersBySite] = useState([]);
+  const handleSubmitOrdersBySite = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.get(`http://localhost:3000/all/${siteId}/orders-site`);
+      setReturnedOrdersBySite(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleChangeOrdersBySite = (event) => {
+    setSiteId(event.target.value);
+  };
+  
+
+
+
+
 
 
   useEffect(() => {
@@ -356,6 +394,77 @@ function App() {
         </table>
       ) : (
         <p>No users found.</p>
+      )}
+    </div>
+
+
+
+
+
+    <div>
+      <form onSubmit={handleSubmitOrders}>
+        <label>
+          User ID:
+          <input type="number" value={userId} onChange={handleChangeOrders} />
+        </label>
+        <button type="submit">Search</button>
+      </form>
+      {returnedOrders.length > 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Site Id</th>
+              <th>EstimateDays</th>
+            </tr>
+          </thead>
+          <tbody>
+            {returnedOrders.map((order) => (
+              <tr key={order.id}>
+                <td>{order.UserId}</td>
+                <td>{order.SiteId}</td>
+                <td>{order.EstimateDays}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No orders found.</p>
+      )}
+    </div>
+
+
+
+
+    <div>
+      <form onSubmit={handleSubmitOrdersBySite}>
+        <label>
+          Site ID:
+          <input type="number" value={siteId} onChange={handleChangeOrdersBySite} />
+        </label>
+        <button type="submit">Search</button>
+      </form>
+      {returnedOrdersBySite.length > 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Site Id</th>
+              <th>EstimateDays</th>
+            </tr>
+          </thead>
+          <tbody>
+            {returnedOrdersBySite.map((order) => (
+              <tr key={order.id}>
+                <td>{order.UserId}</td>
+                <td>{order.SiteId}</td>
+                <td>{order.EstimateDays}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No orders found.</p>
       )}
     </div>
 
